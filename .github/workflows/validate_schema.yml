@@ -5,6 +5,9 @@ on:
     paths:
       - 'spec/**'
       - 'examples/**'
+      - 'sdk/python/**'
+      - 'tests/**'
+      - 'pytest.ini'
       - '.github/workflows/validate_schema.yml'
   push:
     branches:
@@ -12,6 +15,9 @@ on:
     paths:
       - 'spec/**'
       - 'examples/**'
+      - 'sdk/python/**'
+      - 'tests/**'
+      - 'pytest.ini'
       - '.github/workflows/validate_schema.yml'
 
 jobs:
@@ -28,8 +34,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install validator dependency
-        run: python -m pip install --upgrade pip jsonschema
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install jsonschema pytest
+          python -m pip install -e sdk/python
 
       - name: Validate schema and examples
         run: |
@@ -68,3 +77,6 @@ jobs:
                 validator.validate(instance)
                 print(f"PASS {file_path}:{line_number}")
           PY
+
+      - name: Run compliance checks
+        run: pytest --compliance-check
