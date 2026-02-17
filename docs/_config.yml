@@ -1,0 +1,12 @@
+title: OpenTSR
+description: OpenTSR standard and reference implementation docs
+theme: minima
+markdown: kramdown
+header_pages:
+  - index.md
+  - getting-started.md
+  - spec.md
+  - profiles.md
+  - governance.md
+  - roadmap.md
+  - github-setup.md
