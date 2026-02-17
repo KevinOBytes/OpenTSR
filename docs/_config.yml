@@ -7,6 +7,9 @@ header_pages:
   - getting-started.md
   - spec.md
   - profiles.md
+  - vocabulary.md
+  - compliance.md
+  - reference-ingest.md
   - governance.md
   - roadmap.md
   - github-setup.md

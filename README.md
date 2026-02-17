@@ -9,7 +9,7 @@ OpenTSR is a GitHub-native, docs-as-code standard and reference implementation f
 ## Documentation
 
 - Docs site (GitHub Pages): [https://<org-or-user>.github.io/OpenTSR/](https://<org-or-user>.github.io/OpenTSR/)
-- Spec source: [`spec/schema.json`](spec/schema.json), [`spec/SEMANTICS.md`](spec/SEMANTICS.md), [`spec/PROFILES.md`](spec/PROFILES.md)
+- Spec source: [`spec/schema.json`](spec/schema.json), [`spec/SEMANTICS.md`](spec/SEMANTICS.md), [`spec/PROFILES.md`](spec/PROFILES.md), [`spec/vocabulary.md`](spec/vocabulary.md)
 - Governance and RFC process: [`docs/governance.md`](docs/governance.md)
 
 ## Quickstart
@@ -19,20 +19,38 @@ OpenTSR is a GitHub-native, docs-as-code standard and reference implementation f
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install -e sdk/python
+python -m pip install -e sdk/python pytest
 python examples/verify_core.py
+pytest --compliance-check
 ```
 
 ### Sign/verify events
 
-Signing and verification helpers are planned for a follow-up SDK release. Until then, use `safety.digital_signature` and `safety.signature_alg` fields per [`spec/SEMANTICS.md`](spec/SEMANTICS.md) and verify signatures in your platform boundary.
+```bash
+python - <<'PY'
+from opentsr import ActionIntent, Origin, Safety, TSRSignal
+
+signal = TSRSignal(
+    env="dev",
+    origin=Origin(kind="llm_agent", source_id="agent-core", namespace="demo"),
+    agent_id="agent://agent-core",
+    action_intent=ActionIntent(action="evaluate", target="task://42"),
+    payload={"event": "verification"},
+    safety=Safety(veracity_score=0.7, hazard_flag=False),
+)
+
+signal.sign(key=b"replace-with-real-secret")
+print(signal.verify_signature(key=b"replace-with-real-secret"))
+PY
+```
 
 ## Adoption
 
 1. Emit events that conform to [`spec/schema.json`](spec/schema.json).
 2. Validate before publish (CI and runtime).
 3. Select an operating profile from [`spec/PROFILES.md`](spec/PROFILES.md).
-4. Record schema and semantics changes in [`CHANGELOG.md`](CHANGELOG.md).
+4. Use `pytest --compliance-check` in CI before merges.
+5. Record schema and semantics changes in [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Governance / RFCs
 

@@ -9,6 +9,35 @@ python -m pip install -e sdk/python
 python examples/verify_core.py
 ```
 
+## Run Compliance Checks
+
+```bash
+source .venv/bin/activate
+python -m pip install pytest
+pytest --compliance-check
+```
+
+## Sign and Verify a Signal
+
+```bash
+source .venv/bin/activate
+python - <<'PY'
+from opentsr import ActionIntent, Origin, Safety, TSRSignal
+
+signal = TSRSignal(
+    env="dev",
+    origin=Origin(kind="llm_agent", source_id="sentinel-core", namespace="tareops"),
+    agent_id="agent://sentinel-core",
+    action_intent=ActionIntent(action="evaluate", target="task://demo"),
+    payload={"event": "signed_example"},
+    safety=Safety(veracity_score=0.8, hazard_flag=False),
+)
+
+signal.sign(key=b"replace-with-real-secret")
+print("signature valid:", signal.verify_signature(key=b"replace-with-real-secret"))
+PY
+```
+
 ## Validate Raw JSON Against the Schema
 
 ```bash
@@ -31,4 +60,5 @@ PY
 
 - Review semantic requirements in [`spec/SEMANTICS.md`](../spec/SEMANTICS.md).
 - Select a deployment posture in [`spec/PROFILES.md`](../spec/PROFILES.md).
+- Review namespaced terms in [`spec/vocabulary.md`](../spec/vocabulary.md).
 - Read governance rules in [`governance.md`](governance.md).

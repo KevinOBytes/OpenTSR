@@ -34,6 +34,7 @@ Every PR that changes schema behavior must include:
 
 - `spec/schema.json` update.
 - `spec/SEMANTICS.md` update.
+- `spec/vocabulary.md` update if namespaced payload vocabulary changes.
 - `CHANGELOG.md` entry.
 - Updated `examples/` payloads if behavior changes.
 
@@ -50,5 +51,6 @@ Every PR that changes schema behavior must include:
 ```bash
 python -m pip install -e sdk/python
 python examples/verify_core.py
+pytest --compliance-check
 python -m json.tool spec/schema.json > /dev/null
 ```

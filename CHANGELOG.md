@@ -13,7 +13,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - OSS hygiene files: `CONTRIBUTING.md`, `SECURITY.md`, `CODEOWNERS`, issue/PR templates.
 - CI workflows for schema/example validation and lightweight docs linting.
 - Valid example event payloads in `examples/` for schema conformance checks.
+- Physical telemetry vocabulary in `spec/vocabulary.md` with `physical:sensor` term.
+- Compliance test suite runnable via `pytest --compliance-check`.
+- Reference ingest contract with `400` reject semantics and split hot/cold persistence behavior.
 
 ### Changed
 
 - Repository README upgraded to standard + reference implementation positioning.
+- Schema and SDK now include `safety.hazard_flag` and `action_intent`.
+- SDK now supports HMAC-SHA256 sign/verify helpers and 1MB soft payload limit warnings.

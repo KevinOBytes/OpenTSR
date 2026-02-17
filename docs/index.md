@@ -7,8 +7,11 @@ OpenTSR is a standard plus reference implementation for AI telemetry evidence en
 - Schema: [`spec/schema.json`](../spec/schema.json)
 - Semantics: [`spec/SEMANTICS.md`](../spec/SEMANTICS.md)
 - Profiles: [`spec/PROFILES.md`](../spec/PROFILES.md)
+- Vocabulary: [`spec/vocabulary.md`](../spec/vocabulary.md)
 - SDK: [`sdk/python`](../sdk/python)
 - Examples: [`examples/`](../examples)
+- Compliance guide: [`compliance.md`](compliance.md)
+- Reference ingest: [`reference-ingest.md`](reference-ingest.md)
 
 ## How to Adopt
 

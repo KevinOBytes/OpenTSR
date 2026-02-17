@@ -7,6 +7,7 @@ OpenTSR specification source lives in the repository `spec/` directory.
 - JSON Schema: [`spec/schema.json`](../spec/schema.json)
 - Normative Semantics: [`spec/SEMANTICS.md`](../spec/SEMANTICS.md)
 - Profiles: [`spec/PROFILES.md`](../spec/PROFILES.md)
+- Vocabulary: [`spec/vocabulary.md`](../spec/vocabulary.md)
 
 ## Mapping Guides
 

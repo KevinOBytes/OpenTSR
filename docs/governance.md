@@ -41,6 +41,7 @@ Every schema-impacting PR MUST include:
 
 - Update to [`spec/schema.json`](../spec/schema.json).
 - Update to [`spec/SEMANTICS.md`](../spec/SEMANTICS.md).
+- Update to [`spec/vocabulary.md`](../spec/vocabulary.md) when introducing or changing namespaced terms.
 - Entry in [`CHANGELOG.md`](../CHANGELOG.md).
 - Updated examples in [`examples/`](../examples) when applicable.
 
