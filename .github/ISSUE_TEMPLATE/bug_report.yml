@@ -1,0 +1,53 @@
+name: Bug report
+description: Report an implementation bug in SDK/CLI or tooling
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for defects in code, CI, or developer workflow.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected component
+      options:
+        - Python SDK
+        - TypeScript SDK
+        - CLI/Tooling
+        - Documentation
+        - CI/Workflow
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Concise description of the defect.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include exact commands, inputs, and expected behavior.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, runtime versions, package versions.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or traces
+      description: Paste relevant logs or stack traces.
+      render: shell

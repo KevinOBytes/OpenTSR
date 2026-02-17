@@ -1,0 +1,51 @@
+title: "[RFC]: "
+labels:
+  - rfc
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for normative OpenTSR changes.
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: What problem are you solving?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What is in scope and out of scope?
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility
+      description: Describe backward-compatibility and migration impact.
+    validations:
+      required: true
+  - type: textarea
+    id: security
+    attributes:
+      label: Security impact
+      description: Describe integrity, abuse, and operational risks.
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples
+      description: Include representative payloads.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: migration
+    attributes:
+      label: Migration notes
+      description: Explain producer/consumer rollout strategy.
+    validations:
+      required: true

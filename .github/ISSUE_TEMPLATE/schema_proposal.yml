@@ -1,0 +1,46 @@
+name: Schema proposal
+description: Propose a change to the OpenTSR schema
+title: "[Schema]: "
+labels:
+  - spec
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for concrete schema updates. For broad design changes, open an RFC Discussion first.
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: What problem does this schema change solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-change
+    attributes:
+      label: Proposed schema change
+      description: Describe fields, constraints, and validation behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility impact
+      description: Is this backward compatible? If not, what breaks?
+    validations:
+      required: true
+  - type: textarea
+    id: security
+    attributes:
+      label: Security impact
+      description: Describe integrity/veracity or abuse-resistance implications.
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Example payloads
+      description: Include before/after JSON examples.
+      render: json
+    validations:
+      required: true

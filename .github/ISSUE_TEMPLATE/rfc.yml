@@ -1,0 +1,34 @@
+name: RFC request
+description: Request a maintainer-reviewed RFC discussion
+title: "[RFC Request]: "
+labels:
+  - rfc
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Open a Discussion for the full RFC, then link it here for tracking implementation work.
+  - type: input
+    id: discussion-link
+    attributes:
+      label: RFC Discussion link
+      description: Link to the corresponding GitHub Discussion.
+      placeholder: https://github.com/<org>/<repo>/discussions/<id>
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: RFC summary
+      description: Short summary of the proposal and expected outcomes.
+    validations:
+      required: true
+  - type: checkboxes
+    id: artifacts
+    attributes:
+      label: Planned artifacts
+      options:
+        - label: Update `spec/schema.json`
+        - label: Update `spec/SEMANTICS.md`
+        - label: Update `CHANGELOG.md`
+        - label: Update `examples/` payloads (if applicable)
