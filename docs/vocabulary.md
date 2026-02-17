@@ -1,6 +1,11 @@
+---
+layout: default
+title: Vocabulary
+---
+
 # Vocabulary
 
-OpenTSR vocabulary terms are documented in [`spec/vocabulary.md`](../spec/vocabulary.md).
+OpenTSR vocabulary terms are documented in [`spec/vocabulary.md`](https://github.com/KevinOBytes/OpenTSR/blob/main/spec/vocabulary.md).
 
 ## Current Namespaced Terms
 

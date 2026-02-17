@@ -1,6 +1,6 @@
 # OpenTSR
 
-[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-0366d6)](https://<org-or-user>.github.io/OpenTSR/)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-0366d6)](https://kevinobytes.github.io/OpenTSR/)
 
 OpenTSR is a GitHub-native, docs-as-code standard and reference implementation for high-assurance AI telemetry. It defines a strict JSON schema plus semantics and profiles so teams can emit, validate, and govern evidence envelopes consistently across autonomous systems.
 
@@ -8,7 +8,7 @@ OpenTSR is a GitHub-native, docs-as-code standard and reference implementation f
 
 ## Documentation
 
-- Docs site (GitHub Pages): [https://<org-or-user>.github.io/OpenTSR/](https://<org-or-user>.github.io/OpenTSR/)
+- Docs site (GitHub Pages): [https://kevinobytes.github.io/OpenTSR/](https://kevinobytes.github.io/OpenTSR/)
 - Spec source: [`spec/schema.json`](spec/schema.json), [`spec/SEMANTICS.md`](spec/SEMANTICS.md), [`spec/PROFILES.md`](spec/PROFILES.md), [`spec/vocabulary.md`](spec/vocabulary.md)
 - Governance and RFC process: [`docs/governance.md`](docs/governance.md)
 

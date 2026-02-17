@@ -1,3 +1,8 @@
+---
+layout: default
+title: GitHub Setup
+---
+
 # GitHub Setup Checklist
 
 These actions must be completed in the GitHub UI by a repository administrator.
@@ -5,8 +10,8 @@ These actions must be completed in the GitHub UI by a repository administrator.
 ## 1. Enable GitHub Pages
 
 1. Open **Settings** -> **Pages**.
-2. Set **Source** to `Deploy from a branch`.
-3. Set **Branch** to `main` and folder to `/docs`.
+2. Set **Source** to `GitHub Actions`.
+3. Ensure workflow `Deploy Docs` is enabled.
 4. Save and wait for the first publish.
 
 ## 2. Enable Discussions

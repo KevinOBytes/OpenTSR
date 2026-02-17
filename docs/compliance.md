@@ -1,3 +1,8 @@
+---
+layout: default
+title: Compliance
+---
+
 # Compliance
 
 OpenTSR compliance checks are executable via pytest.

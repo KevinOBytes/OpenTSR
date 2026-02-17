@@ -1,3 +1,8 @@
+---
+layout: default
+title: RFC Template
+---
+
 # RFC: Short Descriptive Name
 
 ## Motivation

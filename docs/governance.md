@@ -1,3 +1,8 @@
+---
+layout: default
+title: Governance
+---
+
 # Governance and RFC Process
 
 OpenTSR uses a Discussions-first workflow for specification governance.
@@ -39,13 +44,13 @@ A breaking change includes:
 
 Every schema-impacting PR MUST include:
 
-- Update to [`spec/schema.json`](../spec/schema.json).
-- Update to [`spec/SEMANTICS.md`](../spec/SEMANTICS.md).
-- Update to [`spec/vocabulary.md`](../spec/vocabulary.md) when introducing or changing namespaced terms.
-- Entry in [`CHANGELOG.md`](../CHANGELOG.md).
-- Updated examples in [`examples/`](../examples) when applicable.
+- Update to [`spec/schema.json`](https://github.com/KevinOBytes/OpenTSR/blob/main/spec/schema.json).
+- Update to [`spec/SEMANTICS.md`](https://github.com/KevinOBytes/OpenTSR/blob/main/spec/SEMANTICS.md).
+- Update to [`spec/vocabulary.md`](https://github.com/KevinOBytes/OpenTSR/blob/main/spec/vocabulary.md) when introducing or changing namespaced terms.
+- Entry in [`CHANGELOG.md`](https://github.com/KevinOBytes/OpenTSR/blob/main/CHANGELOG.md).
+- Updated examples in [`examples/`](https://github.com/KevinOBytes/OpenTSR/tree/main/examples) when applicable.
 
 ## RFC Template
 
-- Discussion form: [`.github/DISCUSSION_TEMPLATE/rfc.yml`](../.github/DISCUSSION_TEMPLATE/rfc.yml)
+- Discussion form: [`.github/DISCUSSION_TEMPLATE/rfc.yml`](https://github.com/KevinOBytes/OpenTSR/blob/main/.github/DISCUSSION_TEMPLATE/rfc.yml)
 - Markdown fallback: [`RFC_TEMPLATE.md`](RFC_TEMPLATE.md)
