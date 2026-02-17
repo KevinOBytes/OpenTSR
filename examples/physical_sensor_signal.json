@@ -1,0 +1,32 @@
+{
+  "@context": "https://opentsr.org/context/v1",
+  "@type": "OpenTSRSignal",
+  "schema_version": "1.0.0-draft",
+  "tsr_id": "018f0c44-8ec8-71d1-9b5d-1482e0897c30",
+  "tsr_timestamp_ns": 1735689602000000000,
+  "env": "staging",
+  "origin": {
+    "kind": "sensor",
+    "source_id": "sensor://plant-alpha/temp-3",
+    "namespace": "plant-alpha"
+  },
+  "payload": {
+    "event_type": "temperature_spike",
+    "physical:sensor": {
+      "sensor_id": "temp-3",
+      "sensor_type": "temperature",
+      "unit": "celsius",
+      "value": 101.7,
+      "location": "mixing-tank-a"
+    }
+  },
+  "safety": {
+    "veracity_score": 0.99,
+    "hazard_flag": true
+  },
+  "tags": [
+    "physical",
+    "sensor",
+    "safety"
+  ]
+}

@@ -3,7 +3,7 @@
   "$id": "https://opentsr.org/spec/schema.json",
   "title": "OpenTSR Signal",
   "description": "Canonical OpenTSR JSON-LD signal packet for Agentic AI telemetry and cyber-physical safety.",
-  "$comment": "Hard packet-size limits (5MB) and vector L2 normalization are enforced by runtime validators in SDK and ingest services.",
+  "$comment": "Soft/hard payload limits, vector L2 normalization, and signature verification are enforced by runtime validators in SDK and ingest services.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -41,6 +41,9 @@
     },
     "agent_id": {
       "$ref": "#/$defs/nonEmptyString"
+    },
+    "action_intent": {
+      "$ref": "#/$defs/actionIntent"
     },
     "origin": {
       "$ref": "#/$defs/origin"
@@ -86,7 +89,8 @@
       },
       "then": {
         "required": [
-          "agent_id"
+          "agent_id",
+          "action_intent"
         ]
       }
     },
@@ -242,6 +246,28 @@
       "type": "string",
       "pattern": "^[A-Fa-f0-9]{64}$"
     },
+    "actionIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "target"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "target": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "reason": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "requested_by": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
     "origin": {
       "type": "object",
       "additionalProperties": false,
@@ -291,9 +317,39 @@
         "content_type": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9!#$&^_.+-]+/[a-zA-Z0-9!#$&^_.+-]+$"
+        },
+        "physical:sensor": {
+          "$ref": "#/$defs/physicalSensor"
         }
       },
       "additionalProperties": true
+    },
+    "physicalSensor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sensor_id",
+        "sensor_type",
+        "unit",
+        "value"
+      ],
+      "properties": {
+        "sensor_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "sensor_type": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "unit": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "value": {
+          "type": "number"
+        },
+        "location": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
     },
     "vector": {
       "type": "array",
@@ -310,13 +366,18 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "veracity_score"
+        "veracity_score",
+        "hazard_flag"
       ],
       "properties": {
         "veracity_score": {
           "type": "number",
           "minimum": 0.0,
           "maximum": 1.0
+        },
+        "hazard_flag": {
+          "type": "boolean",
+          "default": false
         },
         "digital_signature": {
           "type": "string",

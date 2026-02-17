@@ -24,7 +24,7 @@ Cyber logs ignore the physical world. OpenTSR unites them.
 ## 4. Agentic Governance
 Built for the Google SAIF and MITRE ATLAS era.
 * **Feature:** `agent_id` and `action_intent` fields.
-* **Benefit:** Provides a distinct audit trail for **Autonomous Agents**. separating "Human Actions" from "AI Actions" for liability and debugging.
+* **Benefit:** Provides a distinct audit trail for **Autonomous Agents**, separating "Human Actions" from "AI Actions" for liability and debugging.
 
 ## 5. Zero-ETL Ingestion
 Stop writing parsers.

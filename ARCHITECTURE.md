@@ -39,6 +39,12 @@ Checks Cryptographic Signature (Veracity).
 
 Routes to storage (Hot/Cold).
 
+Reference implementation:
+
+- `sdk/python/opentsr/ingest.py` provides the ingest contract used in tests.
+- Invalid payloads return `400` style results.
+- Valid payloads are persisted to cold storage and vector metadata is appended to a hot index.
+
 3. Storage Layer
 Cold: Cloudflare R2 (Object Storage). Stores the full raw JSON payload.
 

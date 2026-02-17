@@ -15,6 +15,7 @@
     "status": "ok"
   },
   "safety": {
-    "veracity_score": 0.82
+    "veracity_score": 0.82,
+    "hazard_flag": false
   }
 }

@@ -16,7 +16,7 @@ The key words "MUST", "MUST NOT", "SHOULD", and "MAY" are to be interpreted as d
 
 - `tsr_id` MUST be UUIDv7.
 - `tsr_timestamp_ns` MUST be Unix epoch nanoseconds in signed 64-bit range.
-- Producers SHOULD use stable clock sources and monotonic ordering when batching.
+- Producers SHOULD use NTP stratum-2 (or better) synchronized clock sources and monotonic ordering when batching.
 
 ## Environment
 
@@ -28,17 +28,21 @@ The key words "MUST", "MUST NOT", "SHOULD", and "MAY" are to be interpreted as d
 - `origin.kind` describes source class (`llm_agent`, `sensor`, `service`, `human_operator`, `simulator`).
 - `origin.source_id` MUST uniquely identify the source within its namespace.
 - `agent_id` MUST be present when `origin.kind = llm_agent`.
+- `action_intent` MUST be present when `origin.kind = llm_agent`.
 
 ## Payload and External Blobs
 
 - `payload` contains domain-specific content.
 - Binary artifacts MUST NOT be embedded directly when payload size is large.
 - If `payload.blob_url` is present, `payload.sha256_hash` MUST also be present.
+- `payload.physical:sensor` MAY be used for standardized physical sensor measurements as defined in [`spec/vocabulary.md`](vocabulary.md).
 
 ## Safety and Veracity
 
 - `safety.veracity_score` MUST be between `0.0` and `1.0`.
+- `safety.hazard_flag` MUST be present and indicates immediate hazard context.
 - `safety.digital_signature` and `safety.signature_alg` MUST be provided together.
+- Current reference signing algorithm is `hmac-sha256`.
 - Consumers MAY set policy thresholds for acceptable veracity.
 
 ## Embeddings
@@ -52,3 +56,8 @@ The key words "MUST", "MUST NOT", "SHOULD", and "MAY" are to be interpreted as d
 - `tags` SHOULD be used for coarse filtering, not domain payload encoding.
 - `trace` SHOULD connect OpenTSR events to external traces/spans where available.
 - `resources` SHOULD reference immutable blobs using URL + SHA-256 digest.
+
+## Payload Size
+
+- Producers SHOULD keep payloads at or below 1MB.
+- Producers MUST NOT exceed the 5MB hard limit.

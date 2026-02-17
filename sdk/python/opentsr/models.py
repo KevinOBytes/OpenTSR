@@ -1,12 +1,16 @@
 from __future__ import annotations
 
+import base64
+import hashlib
+import hmac
 import json
 import math
 import secrets
 import time
+import warnings
 from functools import lru_cache
 from pathlib import Path
-from typing import Dict, List, Literal, Optional, cast
+from typing import Dict, List, Literal, Optional, Tuple, cast
 from uuid import UUID
 
 from jsonschema import Draft202012Validator, FormatChecker
@@ -15,8 +19,10 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 JsonObject = Dict[str, object]
 
 MAX_INT64: int = 9_223_372_036_854_775_807
+MAX_PAYLOAD_SOFT_BYTES: int = 1 * 1024 * 1024
 MAX_PAYLOAD_HARD_BYTES: int = 5 * 1024 * 1024
 UUID_V7_PATTERN: str = r"^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+SUPPORTED_SIGNATURE_ALGS: Tuple[str, ...] = ("hmac-sha256",)
 
 
 def _generate_uuid7() -> str:
@@ -36,6 +42,10 @@ def _default_timestamp_ns() -> int:
 
 def _default_schema_path() -> Path:
     return Path(__file__).resolve().parents[3] / "spec" / "schema.json"
+
+
+def _canonical_json_bytes(payload: object) -> bytes:
+    return json.dumps(payload, separators=(",", ":"), sort_keys=True).encode("utf-8")
 
 
 @lru_cache(maxsize=8)
@@ -62,8 +72,18 @@ class Safety(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
 
     veracity_score: float = Field(ge=0.0, le=1.0)
+    hazard_flag: bool = Field(default=False)
     digital_signature: Optional[str] = Field(default=None, min_length=1)
     signature_alg: Optional[str] = Field(default=None, min_length=1)
+
+
+class ActionIntent(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    action: str = Field(min_length=1)
+    target: str = Field(min_length=1)
+    reason: Optional[str] = Field(default=None, min_length=1)
+    requested_by: Optional[str] = Field(default=None, min_length=1)
 
 
 class Trace(BaseModel):
@@ -103,6 +123,7 @@ class TSRSignal(BaseModel):
     payload: JsonObject
     safety: Safety
     agent_id: Optional[str] = Field(default=None, min_length=1)
+    action_intent: Optional[ActionIntent] = None
     vector: Optional[List[float]] = None
     tags: Optional[List[str]] = None
     trace: Optional[Trace] = None
@@ -122,7 +143,9 @@ class TSRSignal(BaseModel):
     @field_validator("payload")
     @classmethod
     def validate_payload(cls, payload: JsonObject) -> JsonObject:
-        serialized: bytes = json.dumps(payload, separators=(",", ":"), sort_keys=True).encode("utf-8")
+        serialized: bytes = _canonical_json_bytes(payload)
+        if len(serialized) > MAX_PAYLOAD_SOFT_BYTES:
+            warnings.warn("payload exceeds 1MB soft limit", RuntimeWarning, stacklevel=2)
         if len(serialized) > MAX_PAYLOAD_HARD_BYTES:
             raise ValueError("payload exceeds 5MB hard limit")
         if "blob_url" in payload and "sha256_hash" not in payload:
@@ -168,6 +191,8 @@ class TSRSignal(BaseModel):
     def validate_cross_field_constraints(self) -> "TSRSignal":
         if self.origin.kind == "llm_agent" and not self.agent_id:
             raise ValueError("agent_id is required when origin.kind is llm_agent")
+        if self.origin.kind == "llm_agent" and self.action_intent is None:
+            raise ValueError("action_intent is required when origin.kind is llm_agent")
         if self.env == "prod" and not self.safety.digital_signature:
             raise ValueError("safety.digital_signature is required when env=prod")
         if self.safety.digital_signature and not self.safety.signature_alg:
@@ -175,6 +200,43 @@ class TSRSignal(BaseModel):
         if self.safety.signature_alg and not self.safety.digital_signature:
             raise ValueError("safety.digital_signature is required when safety.signature_alg is present")
         return self
+
+    def _signable_dict(self) -> JsonObject:
+        instance: JsonObject = self.as_json_dict()
+        safety_value: object = instance.get("safety")
+        if not isinstance(safety_value, dict):
+            raise ValueError("safety must be an object")
+        safety_obj: JsonObject = cast(JsonObject, dict(safety_value))
+        safety_obj.pop("digital_signature", None)
+        instance["safety"] = safety_obj
+        return instance
+
+    def sign(self, key: bytes, signature_alg: str = "hmac-sha256") -> str:
+        if signature_alg not in SUPPORTED_SIGNATURE_ALGS:
+            supported: str = ", ".join(SUPPORTED_SIGNATURE_ALGS)
+            raise ValueError(f"unsupported signature algorithm: {signature_alg}. Supported: {supported}")
+
+        self.safety.signature_alg = signature_alg
+        signable_bytes: bytes = _canonical_json_bytes(self._signable_dict())
+        if signature_alg == "hmac-sha256":
+            signature_bytes: bytes = hmac.new(key, signable_bytes, hashlib.sha256).digest()
+            signature: str = base64.b64encode(signature_bytes).decode("ascii")
+            self.safety.digital_signature = signature
+            return signature
+
+        raise ValueError(f"unsupported signature algorithm: {signature_alg}")
+
+    def verify_signature(self, key: bytes) -> bool:
+        if self.safety.digital_signature is None or self.safety.signature_alg is None:
+            return False
+        if self.safety.signature_alg not in SUPPORTED_SIGNATURE_ALGS:
+            return False
+
+        signable_bytes: bytes = _canonical_json_bytes(self._signable_dict())
+        expected_signature: str = base64.b64encode(
+            hmac.new(key, signable_bytes, hashlib.sha256).digest()
+        ).decode("ascii")
+        return hmac.compare_digest(expected_signature, self.safety.digital_signature)
 
     def as_json_dict(self) -> JsonObject:
         return cast(JsonObject, self.model_dump(mode="json", by_alias=True, exclude_none=True))

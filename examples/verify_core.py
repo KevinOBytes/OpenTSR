@@ -9,7 +9,7 @@ SDK_PYTHON_DIR: Path = REPO_ROOT / "sdk" / "python"
 if str(SDK_PYTHON_DIR) not in sys.path:
     sys.path.insert(0, str(SDK_PYTHON_DIR))
 
-from opentsr import Origin, Safety, TSRSignal
+from opentsr import ActionIntent, Origin, Safety, TSRSignal
 
 
 def main() -> None:
@@ -17,13 +17,19 @@ def main() -> None:
         env="dev",
         origin=Origin(kind="llm_agent", source_id="sentinel-core", namespace="tareops"),
         agent_id="agent://sentinel-core",
+        action_intent=ActionIntent(
+            action="validate_signal",
+            target="schema:v1.0.0-draft",
+            reason="run reference validation",
+            requested_by="system://bootstrap"
+        ),
         payload={
             "event": "verification_pass",
             "detail": "Phase 1 core schema validation",
             "blob_url": "https://r2.example.com/tare/signals/packet-0001.json",
             "sha256_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
         },
-        safety=Safety(veracity_score=0.5),
+        safety=Safety(veracity_score=0.5, hazard_flag=False),
         vector=[1.0] + [0.0] * 1023
     )
 
