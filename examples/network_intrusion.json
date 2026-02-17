@@ -1,0 +1,45 @@
+{
+  "@context": "https://opentsr.org/context/v1",
+  "@type": "OpenTSRSignal",
+  "schema_version": "1.0.0-draft",
+  "tsr_id": "018f0c44-5f0b-7b60-8b03-52e7487ad7e0",
+  "tsr_timestamp_ns": 1735689601000000000,
+  "env": "prod",
+  "agent_id": "agent://sentinel/network-hunter",
+  "origin": {
+    "kind": "llm_agent",
+    "source_id": "sentinel-network-hunter",
+    "namespace": "tareops",
+    "software_version": "0.1.0"
+  },
+  "payload": {
+    "event_type": "network_intrusion",
+    "severity": "high",
+    "src_ip": "10.8.3.14",
+    "dst_ip": "172.16.8.99",
+    "blob_url": "https://r2.example.com/incidents/net-0001.json",
+    "sha256_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+  },
+  "safety": {
+    "veracity_score": 0.97,
+    "digital_signature": "MEUCIQDNvN5YURUD6w6XGkxfN4h0w2r5zA6iw62Q9e4sPjBf4gIgM7Tx8gYB8hDyxPjxtE9z2Sk9D2oPgx2e3n7nY6rT8fQ=",
+    "signature_alg": "ed25519"
+  },
+  "tags": [
+    "intrusion",
+    "network",
+    "prod"
+  ],
+  "trace": {
+    "trace_id": "9f7f4f5f7b80477a9e6191d5fb87bd6f",
+    "span_id": "f23a90ee4bd29c6d"
+  },
+  "resources": [
+    {
+      "blob_url": "https://r2.example.com/pcap/net-0001.pcap",
+      "sha256_hash": "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789",
+      "content_type": "application/vnd.tcpdump.pcap",
+      "size_bytes": 20480
+    }
+  ]
+}

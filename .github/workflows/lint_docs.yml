@@ -1,0 +1,106 @@
+name: Lint Docs
+
+on:
+  pull_request:
+    paths:
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'SECURITY.md'
+      - 'docs/**'
+      - 'spec/**'
+      - '.github/workflows/lint_docs.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'SECURITY.md'
+      - 'docs/**'
+      - 'spec/**'
+      - '.github/workflows/lint_docs.yml'
+
+jobs:
+  lint-docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate docs structure and links
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+
+          repo_root = Path('.').resolve()
+          required_files = [
+              Path('README.md'),
+              Path('CHANGELOG.md'),
+              Path('CONTRIBUTING.md'),
+              Path('SECURITY.md'),
+              Path('docs/index.md'),
+              Path('docs/getting-started.md'),
+              Path('docs/spec.md'),
+              Path('docs/profiles.md'),
+              Path('docs/governance.md'),
+              Path('docs/roadmap.md'),
+              Path('docs/github-setup.md'),
+              Path('docs/_config.yml'),
+              Path('spec/schema.json'),
+              Path('spec/SEMANTICS.md'),
+              Path('spec/PROFILES.md'),
+          ]
+
+          missing = [str(path) for path in required_files if not path.exists()]
+          if missing:
+            raise SystemExit('Missing required files:\n' + '\n'.join(missing))
+
+          md_files = sorted({
+              *Path('docs').rglob('*.md'),
+              *Path('spec').rglob('*.md'),
+              Path('README.md'),
+              Path('CHANGELOG.md'),
+              Path('CONTRIBUTING.md'),
+              Path('SECURITY.md'),
+          })
+
+          link_pattern = re.compile(r'\[[^\]]+\]\(([^)]+)\)')
+          errors = []
+
+          for md_file in md_files:
+            content = md_file.read_text(encoding='utf-8')
+            for raw_link in link_pattern.findall(content):
+              link = raw_link.strip()
+              if not link:
+                continue
+              if link.startswith(('http://', 'https://', 'mailto:', 'tel:', '#')):
+                continue
+
+              link_target = link.split()[0]
+              link_target = link_target.split('#', 1)[0].split('?', 1)[0]
+              if not link_target:
+                continue
+
+              if link_target.startswith('/'):
+                candidate = repo_root / link_target.lstrip('/')
+              else:
+                candidate = (md_file.parent / link_target).resolve()
+
+              if not candidate.exists():
+                errors.append(f'{md_file}: broken link target {link}')
+
+          if errors:
+            raise SystemExit('Broken links detected:\n' + '\n'.join(errors))
+
+          print(f'Checked {len(md_files)} markdown files. No obvious broken links found.')
+          PY

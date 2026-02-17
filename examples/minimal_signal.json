@@ -1,0 +1,20 @@
+{
+  "@context": "https://opentsr.org/context/v1",
+  "@type": "OpenTSRSignal",
+  "schema_version": "1.0.0-draft",
+  "tsr_id": "018f0c44-3f1a-7cc1-8a5e-4f8ecf4c8f20",
+  "tsr_timestamp_ns": 1735689600000000000,
+  "env": "dev",
+  "origin": {
+    "kind": "service",
+    "source_id": "gateway-auth",
+    "namespace": "opentsr-demo"
+  },
+  "payload": {
+    "event": "heartbeat",
+    "status": "ok"
+  },
+  "safety": {
+    "veracity_score": 0.82
+  }
+}
