@@ -1,3 +1,7 @@
 __pycache__/
 *.ds_store
 .env
+.local/
+*.tfstate
+*.tfstate.backup
+.wrangler/
