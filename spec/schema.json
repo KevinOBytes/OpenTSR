@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opentsr.org/spec/schema.json",
+  "title": "OpenTSR Signal",
+  "description": "Canonical OpenTSR JSON-LD signal packet for Agentic AI telemetry and cyber-physical safety.",
+  "$comment": "Hard packet-size limits (5MB) and vector L2 normalization are enforced by runtime validators in SDK and ingest services.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "@context",
+    "@type",
+    "tsr_id",
+    "tsr_timestamp_ns",
+    "env",
+    "origin",
+    "payload",
+    "safety"
+  ],
+  "properties": {
+    "@context": {
+      "type": "string",
+      "const": "https://opentsr.org/context/v1"
+    },
+    "@type": {
+      "type": "string",
+      "const": "OpenTSRSignal"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0-draft",
+      "default": "1.0.0-draft"
+    },
+    "tsr_id": {
+      "$ref": "#/$defs/uuidv7"
+    },
+    "tsr_timestamp_ns": {
+      "$ref": "#/$defs/timestampNs"
+    },
+    "env": {
+      "$ref": "#/$defs/environment"
+    },
+    "agent_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "origin": {
+      "$ref": "#/$defs/origin"
+    },
+    "payload": {
+      "$ref": "#/$defs/payload"
+    },
+    "vector": {
+      "$ref": "#/$defs/vector"
+    },
+    "safety": {
+      "$ref": "#/$defs/safety"
+    },
+    "tags": {
+      "$ref": "#/$defs/tags"
+    },
+    "trace": {
+      "$ref": "#/$defs/trace"
+    },
+    "resources": {
+      "$ref": "#/$defs/resources"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "origin": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "llm_agent"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          }
+        },
+        "required": [
+          "origin"
+        ]
+      },
+      "then": {
+        "required": [
+          "agent_id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "env": {
+            "const": "prod"
+          }
+        },
+        "required": [
+          "env"
+        ]
+      },
+      "then": {
+        "properties": {
+          "safety": {
+            "required": [
+              "veracity_score",
+              "digital_signature"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "safety": {
+            "type": "object",
+            "required": [
+              "digital_signature"
+            ]
+          }
+        },
+        "required": [
+          "safety"
+        ]
+      },
+      "then": {
+        "properties": {
+          "safety": {
+            "required": [
+              "signature_alg"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "safety": {
+            "type": "object",
+            "required": [
+              "signature_alg"
+            ]
+          }
+        },
+        "required": [
+          "safety"
+        ]
+      },
+      "then": {
+        "properties": {
+          "safety": {
+            "required": [
+              "digital_signature"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "vector"
+        ]
+      },
+      "then": {
+        "oneOf": [
+          {
+            "properties": {
+              "vector": {
+                "minItems": 1024,
+                "maxItems": 1024
+              }
+            }
+          },
+          {
+            "properties": {
+              "vector": {
+                "minItems": 1536,
+                "maxItems": 1536
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "required": [
+              "blob_url"
+            ]
+          }
+        },
+        "required": [
+          "payload"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "blob_url",
+              "sha256_hash"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "uuidv7": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "description": "RFC 9562 UUIDv7 value."
+    },
+    "timestampNs": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807,
+      "description": "Nanoseconds since Unix epoch in a signed 64-bit integer range."
+    },
+    "environment": {
+      "type": "string",
+      "enum": [
+        "dev",
+        "staging",
+        "prod"
+      ]
+    },
+    "sha256Hex": {
+      "type": "string",
+      "pattern": "^[A-Fa-f0-9]{64}$"
+    },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "source_id"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "llm_agent",
+            "sensor",
+            "service",
+            "human_operator",
+            "simulator"
+          ]
+        },
+        "source_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "namespace": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "device_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "software_version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "region": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "payload": {
+      "type": "object",
+      "description": "Signal body. Large binaries must be referenced, not embedded.",
+      "properties": {
+        "blob_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sha256_hash": {
+          "$ref": "#/$defs/sha256Hex"
+        },
+        "content_type": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9!#$&^_.+-]+/[a-zA-Z0-9!#$&^_.+-]+$"
+        }
+      },
+      "additionalProperties": true
+    },
+    "vector": {
+      "type": "array",
+      "description": "Embedding vector. Runtime validators enforce L2 normalization.",
+      "items": {
+        "type": "number",
+        "minimum": -1.0,
+        "maximum": 1.0
+      },
+      "minItems": 1024,
+      "maxItems": 1536
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "veracity_score"
+      ],
+      "properties": {
+        "veracity_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "digital_signature": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signature_alg": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      }
+    },
+    "trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "trace_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "span_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "parent_span_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "resourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blob_url",
+        "sha256_hash"
+      ],
+      "properties": {
+        "blob_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sha256_hash": {
+          "$ref": "#/$defs/sha256Hex"
+        },
+        "content_type": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9!#$&^_.+-]+/[a-zA-Z0-9!#$&^_.+-]+$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/resourceRef"
+      }
+    }
+  }
+}
