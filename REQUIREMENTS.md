@@ -39,7 +39,7 @@ To ensure high-assurance safety for Agentic AI, all OpenTSR implementations must
 
 ### 4.1. Payload Size
 * **Maximum Packet Size:** 1MB (Soft Limit), 5MB (Hard Limit).
-* **Blob Data:** Large binary objects (images, PCAP files) MUST NOT be embedded in the JSON. They MUST be stored in R2/S3, and the `payload` MUST contain the `blob_url` and `sha256_hash`.
+* **Blob Data:** Large binary objects (images, PCAP files) MUST NOT be embedded in the JSON. They MUST be stored in cold object storage (for example S3-compatible storage), and the `payload` MUST contain the `blob_url` and `sha256_hash`.
 * **Physical Sensor Vocabulary:** Physical telemetry SHOULD use `payload.physical:sensor` as defined in `spec/vocabulary.md`.
 
 ### 4.2. Schema Validation

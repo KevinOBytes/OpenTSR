@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "adapter_id": "woehrsh-rm-compound-microscope",
+  "display_name": "Woehrsh RM Compound Microscope Adapter",
+  "vendor": "Woehrsh",
+  "license": "Apache-2.0",
+  "repository_url": "https://github.com/KevinOBytes/OpenTSR/tree/main/adapters/woehrsh-rm-compound-microscope",
+  "maintainers": [
+    {
+      "name": "OpenTSR Maintainers",
+      "contact": "https://github.com/KevinOBytes/OpenTSR"
+    }
+  ],
+  "languages": [
+    "python",
+    "typescript"
+  ],
+  "input_interfaces": [
+    "rest",
+    "file_export"
+  ],
+  "output_profile": "core",
+  "status": "experimental",
+  "supports_signing": false,
+  "supports_vectors": true,
+  "source_reference": "Microscope event payload mapped to OpenTSR telemetry envelope with blob references.",
+  "examples": [
+    {
+      "source_path": "adapters/woehrsh-rm-compound-microscope/examples/source.json",
+      "opentsr_path": "adapters/woehrsh-rm-compound-microscope/examples/opentsr.json"
+    }
+  ]
+}

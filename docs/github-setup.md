@@ -28,6 +28,7 @@ These actions must be completed in the GitHub UI by a repository administrator.
 4. Require status checks:
    - `Validate Schema and Examples`
    - `Lint Docs`
+   - `Deploy Docs`
 
 ## 4. Labels
 

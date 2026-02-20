@@ -31,7 +31,7 @@ from opentsr import ActionIntent, Origin, Safety, TSRSignal
 
 signal = TSRSignal(
     env="dev",
-    origin=Origin(kind="llm_agent", source_id="sentinel-core", namespace="tareops"),
+    origin=Origin(kind="llm_agent", source_id="sentinel-core", namespace="lab-core"),
     agent_id="agent://sentinel-core",
     action_intent=ActionIntent(action="evaluate", target="task://demo"),
     payload={"event": "signed_example"},
@@ -59,6 +59,14 @@ with open('examples/minimal_signal.json', 'r', encoding='utf-8') as f:
 Draft202012Validator(schema).validate(instance)
 print('schema validation: PASS')
 PY
+```
+
+## Use the TypeScript Translator SDK
+
+```bash
+cd sdk/typescript
+npm install
+npm run typecheck
 ```
 
 ## Next Steps

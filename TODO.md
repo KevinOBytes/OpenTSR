@@ -18,7 +18,7 @@
 - [x] Enforce vector dimensions (`1024` or `1536`) and normalization semantics.
 - [x] Enforce blob reference requirements (`blob_url` + `sha256_hash`) for externalized binaries.
 
-### 1.2 Python SDK (High-Assurance Reference)
+### 1.2 Translator SDKs (High-Assurance References)
 - [x] Create package metadata and runtime dependencies in `sdk/python/pyproject.toml`.
 - [x] Implement strict Pydantic models in `sdk/python/opentsr/models.py`.
 - [x] Auto-generate UUIDv7 `tsr_id` for every signal.
@@ -26,6 +26,8 @@
 - [x] Add schema-backed `validate()` method for emitter-side compliance.
 - [x] Export public SDK interface in `sdk/python/opentsr/__init__.py`.
 - [ ] Add usage documentation in `sdk/python/README.md`.
+- [x] Scaffold TypeScript/Zod translator SDK in `sdk/typescript/`.
+- [ ] Add TypeScript examples and parity tests against Python translator behavior.
 
 ### 1.3 Core Verification
 - [x] Add `examples/verify_core.py` for canonical signal generation and validation.
@@ -34,16 +36,16 @@
 
 ## 2. Phase 2 - The Ingest Engine
 
-### 2.1 Worker Gatekeeper
-- [ ] Create Cloudflare `ingest-worker` endpoint skeleton.
+### 2.1 Ingest Gatekeeper
+- [ ] Create deployment-agnostic ingest API skeleton.
 - [ ] Validate inbound payloads against `spec/schema.json`.
 - [ ] Return deterministic `400` responses on compliance failures.
 - [ ] Implement payload hard-limit enforcement (5 MB).
 - [ ] Add explicit request timeout and retry policy for downstream calls.
 
 ### 2.2 Storage and Routing
-- [ ] Persist raw payload to R2 (`tare-signals-dev`/`tare-signals-prod`).
-- [ ] Split metadata for relational indexing (Neon).
+- [ ] Persist raw payload to cold object storage.
+- [ ] Split metadata for relational/time-series indexing.
 - [ ] Add ingestion idempotency keying by `tsr_id`.
 - [ ] Emit structured audit logs for acceptance/rejection decisions.
 
@@ -56,13 +58,13 @@
 
 ### 3.1 Signing
 - [ ] Define signing profile and canonicalization strategy.
-- [ ] Implement signature verification pipeline in `sentinel-worker`.
+- [ ] Implement signature verification pipeline in portable ingest runtime.
 - [ ] Add key rotation workflow and trust-store management.
 
 ### 3.2 Vector Assurance
-- [ ] Implement embedding generation pipeline (Workers AI / NVIDIA path).
+- [ ] Implement embedding generation pipeline with pluggable provider adapters.
 - [ ] Enforce dimensionality and normalization pre-index checks.
-- [ ] Insert vectors into Cloudflare Vectorize (`tare-vectors-v1`).
+- [ ] Insert vectors into vector database index.
 - [ ] Add drift checks for embedding model transitions.
 
 ### 3.3 Safety and Search

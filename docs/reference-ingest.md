@@ -5,7 +5,8 @@ title: Reference Ingest
 
 # Reference Ingest
 
-OpenTSR includes a lightweight Python reference ingest contract in [`sdk/python/opentsr/ingest.py`](https://github.com/KevinOBytes/OpenTSR/blob/main/sdk/python/opentsr/ingest.py).
+OpenTSR includes a lightweight Python reference ingest contract in [`sdk/python/opentsr/reference_ingest.py`](https://github.com/KevinOBytes/OpenTSR/blob/main/sdk/python/opentsr/reference_ingest.py).
+It is a local testing stub for protocol validation, not a production deployment implementation.
 
 ## Contract
 

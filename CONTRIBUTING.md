@@ -38,6 +38,18 @@ Every PR that changes schema behavior must include:
 - `CHANGELOG.md` entry.
 - Updated `examples/` payloads if behavior changes.
 
+## Adapter Hub Contributions
+
+OpenTSR accepts vendor/community adapters under `adapters/`.
+
+Required for adapter PRs:
+
+- Add or update `adapters/<adapter-id>/manifest.json`.
+- Add adapter metadata entry in `adapters/registry.json`.
+- Include source/output examples and adapter `README.md`.
+- Ensure `manifest.json` validates against `adapters/manifest.schema.json`.
+- Do not include secrets, private endpoints, or customer telemetry.
+
 ## Pull Request Checklist
 
 - [ ] Tests pass locally.
@@ -53,4 +65,7 @@ python -m pip install -e sdk/python
 python examples/verify_core.py
 pytest --compliance-check
 python -m json.tool spec/schema.json > /dev/null
+
+# Optional (TypeScript translator SDK)
+cd sdk/typescript && npm install && npm run typecheck
 ```

@@ -5,12 +5,29 @@
 OpenTSR is a GitHub-native, docs-as-code standard and reference implementation for high-assurance AI telemetry. It defines a strict JSON schema plus semantics and profiles so teams can emit, validate, and govern evidence envelopes consistently across autonomous systems.
 
 **Status:** Draft `v1.0.0-draft`
+**Deployment Model:** Vendor-neutral and portable across cloud providers or local infrastructure.
 
 ## Documentation
 
 - Docs site (GitHub Pages): [https://kevinobytes.github.io/OpenTSR/](https://kevinobytes.github.io/OpenTSR/)
 - Spec source: [`spec/schema.json`](spec/schema.json), [`spec/SEMANTICS.md`](spec/SEMANTICS.md), [`spec/PROFILES.md`](spec/PROFILES.md), [`spec/vocabulary.md`](spec/vocabulary.md)
+- Adapter Hub: [`adapters/`](adapters), [`docs/adapter-hub.md`](docs/adapter-hub.md)
 - Governance and RFC process: [`docs/governance.md`](docs/governance.md)
+
+## Repository Contents
+
+1. **The Law**
+   - `spec/schema.json`
+   - `spec/SEMANTICS.md`
+   - `spec/PROFILES.md`
+2. **The Translators**
+   - Python SDK (`sdk/python`) using Pydantic
+   - TypeScript SDK (`sdk/typescript`) using Zod
+3. **The Hub**
+   - Community-contributed adapter manifests and examples under `adapters/`
+   - Mapping guides in `spec/MAPPINGS_OCSF.md` and `spec/MAPPINGS_OTEL.md`
+4. **Testing**
+   - `pytest --compliance-check` for self-certification against protocol requirements
 
 ## Quickstart
 
@@ -51,6 +68,14 @@ PY
 3. Select an operating profile from [`spec/PROFILES.md`](spec/PROFILES.md).
 4. Use `pytest --compliance-check` in CI before merges.
 5. Record schema and semantics changes in [`CHANGELOG.md`](CHANGELOG.md).
+
+## TARE Pivot: Universal Adapter API
+
+OpenTSR treats proprietary vendor output as input to adapter translators, not as a protocol endpoint.
+
+- Community and vendors contribute adapter manifests and examples under [`adapters/`](adapters).
+- Lightweight SDK bridges (Pydantic/Zod/etc.) map device-specific payloads to OpenTSR JSON-LD.
+- The protocol remains stable while adapters evolve independently.
 
 ## Governance / RFCs
 

@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opentsr.org/adapters/manifest.schema.json",
+  "title": "OpenTSR Adapter Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "adapter_id",
+    "display_name",
+    "vendor",
+    "license",
+    "repository_url",
+    "languages",
+    "input_interfaces",
+    "output_profile",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "adapter_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{2,63}$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "vendor": {
+      "type": "string",
+      "minLength": 2
+    },
+    "license": {
+      "type": "string",
+      "minLength": 2
+    },
+    "repository_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "maintainers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "contact"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2
+          },
+          "contact": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      }
+    },
+    "languages": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "python",
+          "typescript",
+          "go",
+          "rust",
+          "java",
+          "csharp"
+        ]
+      }
+    },
+    "input_interfaces": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "rest",
+          "grpc",
+          "mqtt",
+          "opcua",
+          "modbus",
+          "serial",
+          "file_export",
+          "sdk_callback",
+          "other"
+        ]
+      }
+    },
+    "output_profile": {
+      "type": "string",
+      "enum": [
+        "core",
+        "high-assurance",
+        "edge-telemetry"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "experimental",
+        "beta",
+        "stable",
+        "deprecated"
+      ]
+    },
+    "supports_signing": {
+      "type": "boolean",
+      "default": false
+    },
+    "supports_vectors": {
+      "type": "boolean",
+      "default": false
+    },
+    "source_reference": {
+      "type": "string",
+      "minLength": 3
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_path",
+          "opentsr_path"
+        ],
+        "properties": {
+          "source_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "opentsr_path": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "last_verified_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

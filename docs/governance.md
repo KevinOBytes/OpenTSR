@@ -11,6 +11,7 @@ OpenTSR uses a Discussions-first workflow for specification governance.
 
 - Use **Discussions (RFC)** for normative schema, semantics, profile, and governance proposals.
 - Use **Issues** for bugs, implementation tasks, docs fixes, and maintenance work.
+- Use **Issues/PRs** for adapter additions or updates that do not change protocol compatibility.
 - Use **Security Advisories** for vulnerabilities.
 
 ## RFC Lifecycle

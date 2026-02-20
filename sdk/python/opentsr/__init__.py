@@ -1,4 +1,4 @@
-from .ingest import IngestResult, ingest_signal, ingest_signal_json
+from .reference_ingest import IngestResult, ingest_signal, ingest_signal_json
 from .models import ActionIntent, Origin, ResourceRef, Safety, TSRSignal, Trace
 
 __all__ = [

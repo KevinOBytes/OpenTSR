@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "adapter_id": "vendor-device",
+  "display_name": "Vendor Device Adapter",
+  "vendor": "Vendor Name",
+  "license": "Apache-2.0",
+  "repository_url": "https://github.com/<org-or-user>/<adapter-repo>",
+  "maintainers": [
+    {
+      "name": "Maintainer Name",
+      "contact": "https://github.com/<maintainer>"
+    }
+  ],
+  "languages": [
+    "python"
+  ],
+  "input_interfaces": [
+    "rest"
+  ],
+  "output_profile": "core",
+  "status": "experimental",
+  "supports_signing": false,
+  "supports_vectors": false,
+  "source_reference": "Vendor API or protocol specification link",
+  "examples": [
+    {
+      "source_path": "adapters/vendor-device/examples/source.json",
+      "opentsr_path": "adapters/vendor-device/examples/opentsr.json"
+    }
+  ]
+}

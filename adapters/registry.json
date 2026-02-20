@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "adapters": [
+    {
+      "adapter_id": "generic-ph-meter",
+      "manifest_path": "adapters/generic-ph-meter/manifest.json",
+      "status": "experimental"
+    },
+    {
+      "adapter_id": "woehrsh-rm-compound-microscope",
+      "manifest_path": "adapters/woehrsh-rm-compound-microscope/manifest.json",
+      "status": "experimental"
+    }
+  ]
+}

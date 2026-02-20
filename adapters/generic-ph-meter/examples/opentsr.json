@@ -1,0 +1,28 @@
+{
+  "@context": "https://opentsr.org/context/v1",
+  "@type": "OpenTSRSignal",
+  "schema_version": "1.0.0-draft",
+  "tsr_id": "0194f5d8-4b72-7f3a-8cb1-74d6282de7e1",
+  "tsr_timestamp_ns": 1771574472000000000,
+  "env": "dev",
+  "origin": {
+    "kind": "sensor",
+    "source_id": "phm-221",
+    "namespace": "lab-floor"
+  },
+  "payload": {
+    "event": "ph_reading",
+    "physical:sensor": {
+      "sensor_id": "phm-221",
+      "sensor_type": "ph_meter",
+      "unit": "pH",
+      "value": 6.42,
+      "location": "line-7-reactor"
+    },
+    "temperature_c": 24.8
+  },
+  "safety": {
+    "veracity_score": 0.96,
+    "hazard_flag": false
+  }
+}

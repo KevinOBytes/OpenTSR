@@ -10,6 +10,7 @@ on:
       - 'FEATURES.md'
       - 'REQUIREMENTS.md'
       - 'docs/**'
+      - 'adapters/README.md'
       - 'spec/**'
       - '.github/workflows/lint_docs.yml'
   push:
@@ -23,6 +24,7 @@ on:
       - 'FEATURES.md'
       - 'REQUIREMENTS.md'
       - 'docs/**'
+      - 'adapters/README.md'
       - 'spec/**'
       - '.github/workflows/lint_docs.yml'
 
@@ -55,6 +57,7 @@ jobs:
               Path('docs/index.md'),
               Path('docs/getting-started.md'),
               Path('docs/spec.md'),
+              Path('docs/adapter-hub.md'),
               Path('docs/profiles.md'),
               Path('docs/vocabulary.md'),
               Path('docs/compliance.md'),

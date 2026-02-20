@@ -4,8 +4,10 @@ on:
   pull_request:
     paths:
       - 'spec/**'
+      - 'adapters/**'
       - 'examples/**'
       - 'sdk/python/**'
+      - 'sdk/typescript/**'
       - 'tests/**'
       - 'pytest.ini'
       - '.github/workflows/validate_schema.yml'
@@ -14,8 +16,10 @@ on:
       - main
     paths:
       - 'spec/**'
+      - 'adapters/**'
       - 'examples/**'
       - 'sdk/python/**'
+      - 'sdk/typescript/**'
       - 'tests/**'
       - 'pytest.ini'
       - '.github/workflows/validate_schema.yml'
@@ -34,16 +38,26 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install jsonschema pytest
           python -m pip install -e sdk/python
 
+      - name: Typecheck TypeScript translator SDK
+        run: |
+          cd sdk/typescript
+          npm install
+          npm run typecheck
+
       - name: Validate schema and examples
         run: |
           python - <<'PY'
-          import glob
           import json
           from pathlib import Path
 
@@ -76,6 +90,65 @@ jobs:
                 instance = json.loads(stripped)
                 validator.validate(instance)
                 print(f"PASS {file_path}:{line_number}")
+
+          adapter_manifest_schema_path = Path("adapters/manifest.schema.json")
+          adapter_registry_schema_path = Path("adapters/registry.schema.json")
+          adapter_registry_path = Path("adapters/registry.json")
+
+          with adapter_manifest_schema_path.open("r", encoding="utf-8") as fh:
+            adapter_manifest_schema = json.load(fh)
+          with adapter_registry_schema_path.open("r", encoding="utf-8") as fh:
+            adapter_registry_schema = json.load(fh)
+          with adapter_registry_path.open("r", encoding="utf-8") as fh:
+            adapter_registry = json.load(fh)
+
+          adapter_manifest_validator = Draft202012Validator(
+            adapter_manifest_schema, format_checker=FormatChecker()
+          )
+          adapter_registry_validator = Draft202012Validator(
+            adapter_registry_schema, format_checker=FormatChecker()
+          )
+          adapter_registry_validator.validate(adapter_registry)
+          print("PASS adapters/registry.json")
+
+          registry_entries = adapter_registry.get("adapters", [])
+          registry_by_path = {entry["manifest_path"]: entry for entry in registry_entries}
+          seen_adapter_ids = set()
+
+          for manifest_path in sorted(Path("adapters").glob("*/manifest.json")):
+            if manifest_path.parent.name.startswith("_"):
+              continue
+            with manifest_path.open("r", encoding="utf-8") as fh:
+              manifest = json.load(fh)
+
+            adapter_manifest_validator.validate(manifest)
+            print(f"PASS {manifest_path}")
+
+            adapter_id = manifest["adapter_id"]
+            if adapter_id in seen_adapter_ids:
+              raise SystemExit(f"Duplicate adapter_id across manifests: {adapter_id}")
+            seen_adapter_ids.add(adapter_id)
+
+            manifest_str = str(manifest_path).replace("\\", "/")
+            if manifest_str not in registry_by_path:
+              raise SystemExit(f"Manifest not listed in adapters/registry.json: {manifest_str}")
+
+            entry = registry_by_path[manifest_str]
+            if entry["adapter_id"] != adapter_id:
+              raise SystemExit(
+                f"Registry adapter_id mismatch for {manifest_str}: "
+                f"{entry['adapter_id']} != {adapter_id}"
+              )
+            if entry["status"] != manifest["status"]:
+              raise SystemExit(
+                f"Registry status mismatch for {manifest_str}: "
+                f"{entry['status']} != {manifest['status']}"
+              )
+
+          for entry in registry_entries:
+            path = Path(entry["manifest_path"])
+            if not path.exists():
+              raise SystemExit(f"Registry references missing manifest: {entry['manifest_path']}")
           PY
 
       - name: Run compliance checks

@@ -29,13 +29,18 @@ Built for the Google SAIF and MITRE ATLAS era.
 ## 5. Zero-ETL Ingestion
 Stop writing parsers.
 * **Feature:** Strict JSON-LD Schema.
-* **Benefit:** Signals are "Analysis Ready" the moment they are generated. TAREOps (and other compliant engines) can index them instantly without complex transformation pipelines.
+* **Benefit:** Signals are "Analysis Ready" the moment they are generated. Any compliant engine can index them instantly without complex transformation pipelines.
 
 ## 6. Hybrid Storage Architecture
 * **Feature:** Split-Brain Data Handling.
 * **Benefit:**
-    * **Hot Path:** Vectors go to Vector DB (Cloudflare Vectorize) for instant recall.
-    * **Cold Path:** Raw JSON goes to Object Storage (R2) for cheap, immutable compliance logging.
+    * **Hot Path:** Vectors go to a Vector Database for instant recall.
+    * **Cold Path:** Raw JSON goes to Cold Object Storage for cheap, immutable compliance logging.
+
+## 7. Universal Adapter Hub
+Proprietary formats should not block protocol adoption.
+* **Feature:** Public adapter registry and manifest schema under `adapters/`.
+* **Benefit:** Vendors and community maintainers can publish thin translators from device-specific payloads to OpenTSR JSON-LD without changing the core protocol.
 
 ---
 **Ready to implement?**

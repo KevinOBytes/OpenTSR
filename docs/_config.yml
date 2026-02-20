@@ -8,6 +8,7 @@ header_pages:
   - index.md
   - getting-started.md
   - spec.md
+  - adapter-hub.md
   - profiles.md
   - vocabulary.md
   - compliance.md

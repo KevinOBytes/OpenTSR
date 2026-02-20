@@ -1,0 +1,11 @@
+{
+  "device_id": "phm-221",
+  "device_type": "ph_meter",
+  "captured_at": "2026-02-20T10:41:12Z",
+  "reading": {
+    "value": 6.42,
+    "unit": "pH",
+    "temperature_c": 24.8
+  },
+  "location": "line-7-reactor"
+}

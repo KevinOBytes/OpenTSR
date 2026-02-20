@@ -1,0 +1,9 @@
+{
+  "device_serial": "WRM-990221",
+  "mode": "brightfield",
+  "objective": "40x",
+  "magnification": 400,
+  "captured_at": "2026-02-20T10:44:25Z",
+  "image_uri": "s3://vendor-exports/wrm/2026/02/20/frame-1842.tif",
+  "image_sha256": "9a501011fd9b4c8f3861866755765d2ecbc470f428d025f9b8f671a26c9f9681"
+}

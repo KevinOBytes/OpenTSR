@@ -16,9 +16,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Physical telemetry vocabulary in `spec/vocabulary.md` with `physical:sensor` term.
 - Compliance test suite runnable via `pytest --compliance-check`.
 - Reference ingest contract with `400` reject semantics and split hot/cold persistence behavior.
+- Adapter Hub scaffolding (`adapters/`) with manifest and registry schemas.
+- Adapter registry validation integrated into schema CI workflow.
 
 ### Changed
 
 - Repository README upgraded to standard + reference implementation positioning.
 - Schema and SDK now include `safety.hazard_flag` and `action_intent`.
 - SDK now supports HMAC-SHA256 sign/verify helpers and 1MB soft payload limit warnings.
+- Architecture and docs now model OpenTSR as universal API with vendor/community adapter contribution path.

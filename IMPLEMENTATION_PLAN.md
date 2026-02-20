@@ -3,7 +3,7 @@
 ## Execution Principles
 - Veracity before velocity: no implied dependencies, no schema shortcuts.
 - Security by default: strict validation, explicit policy checks, fail closed.
-- Cloudflare-first deployment path: edge validation and low-latency ingest.
+- Deployment-agnostic protocol path: equivalent behavior across cloud and local runtimes.
 
 ## Phase 1: The Core Standard
 
@@ -40,20 +40,20 @@ Establish a canonical, machine-verifiable signal format and a reference Python S
 Deploy an edge-native gatekeeper that accepts only compliant OpenTSR packets and stores them with forensic traceability.
 
 ### Deliverables
-1. `ingest-worker` Cloudflare Worker endpoint.
+1. Reference ingest service contract and portability guidance.
 2. Schema-validation middleware with deterministic error responses.
-3. R2 archival integration (`tare-signals-dev`, `tare-signals-prod`).
-4. Metadata persistence path to Neon.
+3. Cold object storage archival integration pattern.
+4. Metadata persistence pattern for relational/time-series databases.
 
 ### Execution Strategy
-1. Build validation-first Worker middleware.
+1. Build validation-first ingest middleware.
 2. Apply payload-size controls before downstream processing.
-3. Persist raw signal to R2 with immutable keying strategy by `tsr_id`.
+3. Persist raw signal to cold object storage with immutable keying by `tsr_id`.
 4. Emit structured ingest logs with reason codes for rejects.
 
 ### Exit Criteria
 - Non-compliant packets are rejected with reasoned 400 responses.
-- Compliant packets are stored in R2 and metadata path is populated.
+- Compliant packets are stored in cold object storage and metadata path is populated.
 - Timeout and retry boundaries are explicit for all external calls.
 
 ## Phase 3: The Verification Layer
@@ -63,12 +63,12 @@ Bind telemetry to cryptographic trust and semantic retrieval quality.
 
 ### Deliverables
 1. Signature verification pipeline (high-assurance mode).
-2. Embedding generation and Vectorize indexing flow.
+2. Embedding generation and vector database indexing flow.
 3. Veracity-aware retrieval constraints for downstream analytics.
 
 ### Execution Strategy
 1. Implement canonical payload signing/verification contract.
-2. Integrate embedding provider path (Workers AI primary, NVIDIA optional accelerator path).
+2. Integrate embedding provider path with pluggable runtime backends.
 3. Enforce vector dimensionality and normalization prior to indexing.
 4. Capture trust metadata for search-time filtering and audit.
 
@@ -79,5 +79,5 @@ Bind telemetry to cryptographic trust and semantic retrieval quality.
 
 ## Sequence and Governance
 1. Complete Phase 1 before provisioning ingest runtime logic.
-2. Update `ARCHITECTURE.md` and `INFRASTRUCTURE.md` on flow/resource changes.
+2. Update `ARCHITECTURE.md` and `BOUNDARY.md` on flow/boundary changes.
 3. Log major decisions in `MEMORY.md` at each phase gate.

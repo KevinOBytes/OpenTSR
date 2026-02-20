@@ -2,6 +2,10 @@
 
 Reference Python SDK for producing, validating, signing, and ingesting OpenTSR signals.
 
+Reference local ingest stub:
+
+- `opentsr.reference_ingest` (`sdk/python/opentsr/reference_ingest.py`) for local contract testing.
+
 ## Install
 
 ```bash

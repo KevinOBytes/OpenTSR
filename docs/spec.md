@@ -19,6 +19,16 @@ OpenTSR specification source lives in the repository `spec/` directory.
 - OCSF Mapping (draft): [`spec/MAPPINGS_OCSF.md`](https://github.com/KevinOBytes/OpenTSR/blob/main/spec/MAPPINGS_OCSF.md)
 - OpenTelemetry Mapping (draft): [`spec/MAPPINGS_OTEL.md`](https://github.com/KevinOBytes/OpenTSR/blob/main/spec/MAPPINGS_OTEL.md)
 
+## Adapter Hub
+
+- Adapter registry and contribution model: [`adapters/README.md`](https://github.com/KevinOBytes/OpenTSR/blob/main/adapters/README.md)
+- Adapter manifest schema: [`adapters/manifest.schema.json`](https://github.com/KevinOBytes/OpenTSR/blob/main/adapters/manifest.schema.json)
+
+## Translator SDKs
+
+- Python (Pydantic): [`sdk/python`](https://github.com/KevinOBytes/OpenTSR/tree/main/sdk/python)
+- TypeScript (Zod): [`sdk/typescript`](https://github.com/KevinOBytes/OpenTSR/tree/main/sdk/typescript)
+
 ## Change Discipline
 
 Normative spec changes must be proposed through the RFC workflow described in [`governance.md`](governance.md).

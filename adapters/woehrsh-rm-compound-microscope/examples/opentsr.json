@@ -1,0 +1,29 @@
+{
+  "@context": "https://opentsr.org/context/v1",
+  "@type": "OpenTSRSignal",
+  "schema_version": "1.0.0-draft",
+  "tsr_id": "0194f5db-6ff0-7cc7-9e25-d7fcddf2e045",
+  "tsr_timestamp_ns": 1771574665000000000,
+  "env": "dev",
+  "origin": {
+    "kind": "sensor",
+    "source_id": "WRM-990221",
+    "namespace": "microscopy-lab"
+  },
+  "payload": {
+    "event": "microscope_capture",
+    "capture_mode": "brightfield",
+    "objective": "40x",
+    "magnification": 400,
+    "blob_url": "https://r2.example.com/microscope/2026/02/20/frame-1842.tif",
+    "sha256_hash": "9a501011fd9b4c8f3861866755765d2ecbc470f428d025f9b8f671a26c9f9681"
+  },
+  "safety": {
+    "veracity_score": 0.94,
+    "hazard_flag": false
+  },
+  "tags": [
+    "microscopy",
+    "brightfield"
+  ]
+}

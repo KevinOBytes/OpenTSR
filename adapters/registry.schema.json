@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opentsr.org/adapters/registry.schema.json",
+  "title": "OpenTSR Adapter Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "adapters"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "adapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "adapter_id",
+          "manifest_path",
+          "status"
+        ],
+        "properties": {
+          "adapter_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{2,63}$"
+          },
+          "manifest_path": {
+            "type": "string",
+            "pattern": "^adapters/[a-z0-9][a-z0-9-]{2,63}/manifest\\.json$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "experimental",
+              "beta",
+              "stable",
+              "deprecated"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

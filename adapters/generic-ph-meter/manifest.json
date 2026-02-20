@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "adapter_id": "generic-ph-meter",
+  "display_name": "Generic pH Meter Adapter",
+  "vendor": "Generic",
+  "license": "Apache-2.0",
+  "repository_url": "https://github.com/KevinOBytes/OpenTSR/tree/main/adapters/generic-ph-meter",
+  "maintainers": [
+    {
+      "name": "OpenTSR Maintainers",
+      "contact": "https://github.com/KevinOBytes/OpenTSR"
+    }
+  ],
+  "languages": [
+    "python",
+    "typescript"
+  ],
+  "input_interfaces": [
+    "serial",
+    "file_export"
+  ],
+  "output_profile": "core",
+  "status": "experimental",
+  "supports_signing": false,
+  "supports_vectors": false,
+  "source_reference": "Device CSV/serial payload mapped into OpenTSR physical:sensor structure.",
+  "examples": [
+    {
+      "source_path": "adapters/generic-ph-meter/examples/source.json",
+      "opentsr_path": "adapters/generic-ph-meter/examples/opentsr.json"
+    }
+  ]
+}

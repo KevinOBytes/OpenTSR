@@ -8,9 +8,9 @@
     * Co-Marketing (Blog posts about "Safe AI").
 * **Action Item:** Utilize "Inception" badge on all OpenTSR docs.
 
-## 2. Cloudflare (Target Platform)
-* **Role:** Infrastructure Backbone.
-* **Goal:** Demonstrate "High-Velocity Vector Ingest" to catch their DevRel attention.
+## 2. Cloud Platform Integrations
+* **Role:** Runtime acceleration partners.
+* **Goal:** Demonstrate high-velocity vector ingest and portability across multiple providers.
 
 ## 3. Google / Alphabet (The Target)
 * **Role:** Prospective Acquirer / Strategic Partner.
